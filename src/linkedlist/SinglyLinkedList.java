@@ -1,7 +1,9 @@
 package linkedlist;
+
 import model.Node;
-import java.lang.Math;
+
 public class SinglyLinkedList<T> {
+
     Node head, tail;
     int length;
 
@@ -26,7 +28,7 @@ public class SinglyLinkedList<T> {
         }
         length++;
     }
-    
+
     public void insertLast(T element) {
         Node newNode = new Node(element);
         if (isEmpty()) {
@@ -41,9 +43,9 @@ public class SinglyLinkedList<T> {
     }
 
     public void insertAt(int position, T element) {
-        if (position < 0 || position > length) {
+        if (position <= 0 || position > length) {
             System.out.println("the position is not exist");
-        } else if (position == 0) {
+        } else if (position == 1) {
             insertFirst(element);
         } else if (position == length) {
             insertLast(element);
@@ -51,11 +53,14 @@ public class SinglyLinkedList<T> {
         } else {
             Node newNode = new Node(element);
             Node curr = head;
+            Node prev = null;
             for (int i = 1; i < position; i++) {
+                prev = curr;
                 curr = curr.getNext();
+
             }
-            newNode.setNext(curr.getNext());
-            curr.setNext(newNode);
+            newNode.setNext(prev.getNext());
+            prev.setNext(newNode);
             length++;
         }
     }
@@ -65,7 +70,6 @@ public class SinglyLinkedList<T> {
         Node curr = head;
         if (isEmpty()) {
             System.out.println("the list is empty");
-            return;
         } else if (length == 1) {
             head = tail = null;
             length--;
@@ -102,13 +106,13 @@ public class SinglyLinkedList<T> {
         }
         if (isEmpty()) {
             System.out.println("the list is empty");
-        } else if (position == 0) {
+        } else if (position == 1) {
             removeFirst();
         } else if (position == length) {
             removeLast();
         } else {
-            Node curr = head.getNext();
-            Node prev = head;
+            Node curr = head;
+            Node prev = null;
             for (int i = 1; i < position; i++) {
                 prev = curr;
                 curr = curr.getNext();
@@ -137,6 +141,7 @@ public class SinglyLinkedList<T> {
             }
             if (curr != null) {
                 prev.setNext(curr.getNext());
+                length--;
             } else if (curr == null) {
                 System.out.println("The item is not there");
             }
@@ -162,13 +167,11 @@ public class SinglyLinkedList<T> {
     }
 
     public int getPosition(T element) {
-        int pos = 0;
-        Node curr = head;
-        if (head.getItem() == element) {
-            return 0;
-        } else if (tail.getItem() == element) {
-            return length-1;
+        int pos = 1;
+        if (tail.getItem() == element) {
+            return length;
         } else {
+            Node curr = head;
             while (curr != tail && curr.getItem() != element) {
                 curr = curr.getNext();
                 pos++;
@@ -177,25 +180,20 @@ public class SinglyLinkedList<T> {
 
         }
     }
-    
+
     public void middleNode() {
-        if(length==0)
-        {
+        if (length == 0) {
             System.out.println("the list is empty");
             return;
         }
-        int mid=(int) Math.ceil(length/2);
-        Node curr=head;
-        for(int i=0;i<mid;i++)
-        {
-            curr=curr.getNext();
+        int mid = (int) Math.ceil(length / 2);
+        Node curr = head;
+        for (int i = 0; i < mid; i++) {
+            curr = curr.getNext();
         }
-        while(curr!=null)
-        {
-            System.out.print(curr.getItem()+"\t");
-            curr=curr.getNext();
-        }
+        System.out.print(curr.getItem() + "\t");
     }
+
     public void print() {
         Node curr = head;
         while (curr != null) {
